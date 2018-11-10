@@ -368,9 +368,9 @@
         /**
          * Variables
          */
-        const signupButton = document.getElementById("signup-button"),
-            loginButton = document.getElementById("login-button"),
-            userForms = document.getElementById("user_options-forms");
+        const signupButton = document.getElementById("signup-button")
+        const loginButton = document.getElementById("login-button")
+        const userForms = document.getElementById("user_options-forms")
 
         /**
          * Add event listener to the "Sign Up" button
@@ -408,7 +408,7 @@
             <div class="user_options-unregistered">
                 <h2 class="user_unregistered-title">Don't have an account?</h2>
                 <p class="user_unregistered-text">Click here to create one!</p>
-                <button class="user_unregistered-signup" id="signup-button" onclick="window.location.href='signup.html'">Sign up</button>
+                <button class="user_unregistered-signup" id="signup-button" onclick="location.href='http://localhost:5000/signup'">Sign up</button>
             </div>
 
             <div class="user_options-registered">

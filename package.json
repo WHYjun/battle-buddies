@@ -1,0 +1,24 @@
+{
+  "name": "text-for-vets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WHYjun/text-for-vets.git"
+  },
+  "author": "Young Jun Choi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WHYjun/text-for-vets/issues"
+  },
+  "homepage": "https://github.com/WHYjun/text-for-vets#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "twilio": "^3.23.2"
+  }
+}

@@ -1,4 +1,5 @@
 var express = require('express')
+const https = require('https')
 const bodyParser = require('body-parser')
 const MessagingResponse = require('twilio').twiml.MessagingResponse
 
@@ -15,7 +16,12 @@ app.get('/', function (req, res) {
 })
 
 app.post('/receive', function (req, res) {
-  console.log('SMS is:' + req.body.Body)
+
+  //assuming app has long lat of user 
+  console.log(req.body.Body);
+  var params = req.body.Body.split(" ");
+
+  if(params[0] == "va_")
 })
 
 app.listen(3000, function () {

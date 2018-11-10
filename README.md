@@ -1,4 +1,4 @@
-# Text For Vets
+# Battle Buddies
 
 ## Authors
 Young Jun Choi (@WHYjun)

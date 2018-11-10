@@ -7,7 +7,8 @@ const twiml = new MessagingResponse()
 var app = express()
 
 // Middlewares
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
   res.send('Hello World!')
@@ -19,4 +20,8 @@ app.post('/receive', function (req, res) {
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
+})
+
+app.post('/api/signup', function (req, res) {
+  console.log(req.body.user.name)
 })

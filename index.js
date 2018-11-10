@@ -28,39 +28,56 @@ app.post('/receive', function (req, res) {
   //assuming app has long lat of user 
   console.log(req.body.Body);
   var params = req.body.Body.split(" ");
+  var addressb4 = req.body.Body.split(".");
+  var address = addressb4[1].replace(/ /g, "+");
 
-  if(params[0] == "va_assist"){
-    console.log("now make http request");
-
-    var APIKEY = "BGZMwn7elWRPHlxknLOYEFVU3bP2RWqD";
-    var long = 42.349416;
-    var lat = -71.106412;
-
-
-    var options = { method: 'GET',
-    url: 'https://dev-api.va.gov/services/va_facilities/v0/facilities',
-    qs: 
-     { apikey: 'BGZMwn7elWRPHlxknLOYEFVU3bP2RWqD',
-       long: '42.349416',
-       lat: '-71.106412' }
-    };
   
+  if(addressb4[0] == "va_assist"){
+
+    var long;
+    var lat;
+
+    const sourceAddress = address;
+    const key = "AIzaSyDx7W32E_T6H5fmVjwLDyGnqTWkySCTJAE";
+
+    const options = { method: 'GET',
+        url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + sourceAddress + '&key=' + key
+    };
+    console.log('proceeded');
     request(options, function (error, response, body) {
-      if (error) throw new Error(error);
-      var result = JSON.parse(body)
-      var textmsg = "Nearby VA facilities are as follows \n"
-      for(let i = 0 ; i < 5 ; i++){
-        textmsg +=  result.data[0].attributes.name +"\n"
-      }
+        if (error) throw new Error(error);
 
-      client.messages.create({
-        from: 8572038387,
-        to: 7819520510,
-        body: textmsg
-      }).then((message) => console.log(message.sid));
-      //console.log(body.data[0].attributes.name);
+        result = JSON.parse(body)
+        result2 = result.results[0].geometry.location
+
+        console.log(result2)
+        long = result2.lng;
+        lat = result2.lat;
+
+        console.log("now make http request");
+
+        var options2 = { method: 'GET',
+        url: 'https://dev-api.va.gov/services/va_facilities/v0/facilities',
+        qs: 
+        { apikey: 'BGZMwn7elWRPHlxknLOYEFVU3bP2RWqD',
+          long: long,
+          lat: lat }
+        };
+      
+        request(options2, function (error, response, body) {
+          if (error) throw new Error(error);
+          var result = JSON.parse(body)
+          var textmsg = "Nearby VA facilities are as follows \n"
+          console.log(result)
+          /*for(let i = 0 ; i < 5 ; i++){
+            textmsg +=  result.data[i].attributes.name +"\n"
+          }*/
+
+          
+          //console.log(body.data[0].attributes.name);
+        });
+  
     });
-
 
   }
 })

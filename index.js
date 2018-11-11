@@ -5,6 +5,9 @@ const bodyParser = require('body-parser')
 const MessagingResponse = require('twilio').twiml.MessagingResponse
 const mongoose = require('mongoose')
 const User = require('./user')
+const accountSid = 'ACa9129633d27ef3500b23dfae414977cf';
+const authToken = '68fb77df16d1defb3bb9744da131eed1';
+var client = require('twilio')(accountSid, authToken);
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost:27017/battle-buddies')
@@ -20,13 +23,29 @@ app.use(bodyParser.json())
 app.post('/receive', function (req, res) {
   // assuming app has long lat of user
   console.log(req.body.Body)
-  var params = req.body.Body.split(' ')
   var addressb4 = req.body.Body.split('.')
-  var address = addressb4[1].replace(/ /g, '+')
 
   if (addressb4[0] === 'va_assist') {
-    var long
-    var lat
+    client.messages
+      .create({
+        body:
+          'Hello! \nWhat kind of assistance do you need?\n(Health,Job Assistance)',
+        from: '',
+        to: ''
+      })
+      .then(message => console.log(message.sid))
+      .done()
+  } else if (addressb4[0] == 'Health') {
+    client.messages
+      .create({
+        body: 'Where are you located?',
+        from: '',
+        to: ''
+      })
+      .then(message => console.log(message.sid))
+      .done()
+  } else {
+    var address = req.body.Body.replace(/ /g, '+')
 
     const sourceAddress = address
     const key = 'AIzaSyDx7W32E_T6H5fmVjwLDyGnqTWkySCTJAE'
@@ -47,8 +66,8 @@ app.post('/receive', function (req, res) {
       var result2 = result.results[0].geometry.location
 
       console.log(result2)
-      long = result2.lng
-      lat = result2.lat
+      var long = result2.lng
+      var lat = result2.lat
 
       console.log('now make http request')
 
@@ -61,11 +80,26 @@ app.post('/receive', function (req, res) {
       request(options2, function (error, response, body) {
         if (error) throw new Error(error)
         var result = JSON.parse(body)
-        var textmsg = 'Nearby VA facilities are as follows \n'
+        var textmsg = 'Nearby VA facilities are as follows: \n'
         console.log(result)
-        /* for(let i = 0 ; i < 5 ; i++){
-            textmsg +=  result.data[i].attributes.name +"\n"
-          } */
+        for (let i = 0; i < 5; i++) {
+          textmsg +=
+            result.data[i].attributes.name +
+            '\n' +
+            ': ' +
+            result.data[i].attributes.phone.main +
+            '\n'
+        }
+        // const twiml = new MessagingResponse()
+
+        client.messages
+          .create({
+            body: textmsg,
+            from: '',
+            to: ''
+          })
+          .then(message => console.log(message.sid))
+          .done()
 
         // console.log(body.data[0].attributes.name);
       })
@@ -98,7 +132,7 @@ app.post('/api/signin', (req, res) => {
   var email = req.body.email
   var password = req.body.password
 
-  User.findOne({'email': email, 'password': password}, (err, docs) => {
+  User.findOne({ email: email, password: password }, (err, docs) => {
     if (err) throw new Error(err)
     if (!docs) {
       res.sendFile(path.join(__dirname, 'client/login/login.html'))

@@ -30,8 +30,8 @@ app.post('/receive', function (req, res) {
       .create({
         body:
           'Hello! \nWhat kind of assistance do you need?\n(Health,Job Assistance)',
-        from: '',
-        to: ''
+        from: '8572038387',
+        to: '7819520510'
       })
       .then(message => console.log(message.sid))
       .done()
@@ -39,8 +39,8 @@ app.post('/receive', function (req, res) {
     client.messages
       .create({
         body: 'Where are you located?',
-        from: '',
-        to: ''
+        from: '8572038387',
+        to: '7819520510'
       })
       .then(message => console.log(message.sid))
       .done()
@@ -95,8 +95,8 @@ app.post('/receive', function (req, res) {
         client.messages
           .create({
             body: textmsg,
-            from: '',
-            to: ''
+            from: '8572038387',
+            to: '7819520510'
           })
           .then(message => console.log(message.sid))
           .done()

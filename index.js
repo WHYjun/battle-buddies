@@ -5,9 +5,9 @@ const bodyParser = require('body-parser')
 const MessagingResponse = require('twilio').twiml.MessagingResponse
 const mongoose = require('mongoose')
 const User = require('./user')
-const accountSid = 'ACa9129633d27ef3500b23dfae414977cf';
-const authToken = '68fb77df16d1defb3bb9744da131eed1';
-var client = require('twilio')(accountSid, authToken);
+const accountSid = 'ACa9129633d27ef3500b23dfae414977cf'
+const authToken = '68fb77df16d1defb3bb9744da131eed1'
+var client = require('twilio')(accountSid, authToken)
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost:27017/battle-buddies')

@@ -5,35 +5,29 @@ const bodyParser = require('body-parser')
 const MessagingResponse = require('twilio').twiml.MessagingResponse
 const mongoose = require('mongoose')
 const User = require('./user')
-const accountSid = ''
-const authToken = ''
-var client = require('twilio')(accountSid, authToken)
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost:27017/battle-buddies')
 
 // VARS
-const twiml = new MessagingResponse()
 var app = express()
 
 // Middlewares
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.post('/receive', function (req, res) {
+app.post('/receive', async function (req, res) {
   // assuming app has long lat of user
   console.log(req.body.Body)
   var addressb4 = req.body.Body.split('.')
 
+  const twiml = new MessagingResponse()
   if (addressb4[0] === 'TXTFORVETS') {
     twiml.message('Hello! \nWhat kind of assistance do you need?\n(Health, Job Assistance)')
-    console.log(twiml.toString())
   } else if (addressb4[0] === 'Health') {
     twiml.message('Where are you located?')
-    console.log(twiml.toString())
   } else if (addressb4[0] === 'Job Assistance') {
     twiml.message('Where are you located?')
-    console.log(twiml.toString())
   } else {
     var address = req.body.Body.replace(/ /g, '+')
 
@@ -56,8 +50,8 @@ app.post('/receive', function (req, res) {
       var result2 = result.results[0].geometry.location
 
       console.log(result2)
-      var long = result2.lng
-      var lat = result2.lat
+      var long = result2.lat
+      var lat = result2.lng
 
       console.log('now make http request')
 
@@ -80,10 +74,19 @@ app.post('/receive', function (req, res) {
             result.data[i].attributes.phone.main +
             '\n'
         }
+        const twiml = new MessagingResponse()
+        console.log(textmsg)
         twiml.message(textmsg)
-        console.log(twiml.toString())
+        console.log('hi')
+        res.writeHead(200, {'Content-Type': 'text/xml'})
+        res.end(twiml.toString())
       })
     })
+  }
+  if (addressb4[0] === 'TXTFORVETS' || addressb4[0] === 'Health' || addressb4[0] === 'Job Assistance') {
+    console.log('hello')
+    res.writeHead(200, {'Content-Type': 'text/xml'})
+    res.end(twiml.toString())
   }
 })
 

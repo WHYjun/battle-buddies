@@ -17,10 +17,6 @@ var app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
-
 app.post('/receive', function (req, res) {
   // assuming app has long lat of user
   console.log(req.body.Body)
@@ -59,12 +55,12 @@ app.post('/receive', function (req, res) {
       var options2 = {
         method: 'GET',
         url: 'https://dev-api.va.gov/services/va_facilities/v0/facilities',
-        qs: 
+        qs:
         { apikey: 'BGZMwn7elWRPHlxknLOYEFVU3bP2RWqD',
           long: long,
           lat: lat }
         };
-      
+
         request(options2, function (error, response, body) {
           if (error) throw new Error(error);
           var result = JSON.parse(body)
@@ -82,11 +78,9 @@ app.post('/receive', function (req, res) {
               to: ''
           })
           .then(message => console.log(message.sid))
-          .done();
-          
+          .done()
           //console.log(body.data[0].attributes.name);
         });
-  
     });
         // console.log(body.data[0].attributes.name);
       })

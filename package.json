@@ -20,6 +20,7 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "mongoose": "^5.3.11",
     "request": "^2.88.0",
     "require": "^2.4.20",
     "superagent": "^4.0.0-beta.5",

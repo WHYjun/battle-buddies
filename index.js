@@ -3,6 +3,11 @@ var path = require('path')
 const request = require('request')
 const bodyParser = require('body-parser')
 const MessagingResponse = require('twilio').twiml.MessagingResponse
+const mongoose = require('mongoose')
+const User = require('./user')
+
+mongoose.Promise = global.Promise
+mongoose.connect('mongodb://localhost:27017/battle-buddies')
 
 // VARS
 const twiml = new MessagingResponse()
@@ -68,8 +73,39 @@ app.post('/receive', function (req, res) {
   }
 })
 
-app.post('/api/signup', function (req, res) {
-  console.log(req.body.user.name)
+app.post('/api/signup', async function (req, res) {
+  var result = {}
+  result['email'] = req.body.email
+  result['name'] = req.body.name
+  result['password'] = req.body.password
+  var dob = req.body.day + req.body.month + req.body.year
+  result['dob'] = dob
+  result['gender'] = req.body.gender
+  var address = req.body.address + ' ' + req.body.city + ' ' + req.body.state
+  result['address'] = address
+  result['specialty'] = req.body.specialty
+  result['branch'] = req.body.branch
+  result['memberid'] = req.body.member
+  result['planid'] = req.body.plan
+
+  const newUser = await new User(result)
+  await newUser.save()
+
+  res.sendFile(path.join(__dirname, 'client/login/login.html'))
+})
+
+app.post('/api/signin', (req, res) => {
+  var email = req.body.email
+  var password = req.body.password
+
+  User.findOne({'email': email, 'password': password}, (err, docs) => {
+    if (err) throw new Error(err)
+    if (!docs) {
+      res.sendFile(path.join(__dirname, 'client/login/login.html'))
+    } else {
+      res.sendFile(path.join(__dirname, 'client/board/board.html'))
+    }
+  })
 })
 
 app.get('/', (req, res) => {
@@ -78,10 +114,6 @@ app.get('/', (req, res) => {
 
 app.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/login/signup.html'))
-})
-
-app.post('/api/signup', function (req, res) {
-  console.log(req.body)
 })
 
 app.get('/express_backend', (req, res) => {

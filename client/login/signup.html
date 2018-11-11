@@ -242,19 +242,19 @@
   </head>
   <body>
     <div class="container">
-      <form>
+      <form method="post" action="/api/signup">
         <div class="row">
           <h4>Account</h4>
           <div class="input-group input-group-icon">
-            <input type="text" placeholder="Full Name" />
+            <input type="text" placeholder="Full Name" name="name" />
             <div class="input-icon"><i class="fa fa-user"></i></div>
           </div>
           <div class="input-group input-group-icon">
-            <input type="email" placeholder="Email Adress" />
+            <input type="email" placeholder="Email Adress" name="email" />
             <div class="input-icon"><i class="fa fa-envelope"></i></div>
           </div>
           <div class="input-group input-group-icon">
-            <input type="password" placeholder="Password" />
+            <input type="password" placeholder="Password" name="password" />
             <div class="input-icon"><i class="fa fa-key"></i></div>
           </div>
         </div>
@@ -263,13 +263,13 @@
             <h4>Date of Birth</h4>
             <div class="input-group">
               <div class="col-third">
-                <input type="text" placeholder="DD" />
+                <input type="text" placeholder="DD" name="day"/>
               </div>
               <div class="col-third">
-                <input type="text" placeholder="MM" />
+                <input type="text" placeholder="MM" name="month" />
               </div>
               <div class="col-third">
-                <input type="text" placeholder="YYYY" />
+                <input type="text" placeholder="YYYY" name="year" />
               </div>
             </div>
           </div>
@@ -291,27 +291,27 @@
         <div class="row">
           <h4>Address</h4>
           <div class="input-group input-group-icon">
-            <input type="text" placeholder="Address Line 1" />
+            <input type="text" placeholder="Address Line 1" name="address" />
             <div class="input-icon"><i class="fa fa-address1"></i></div>
           </div>
         </div>
 
         <div class="input-group">
-          <div class="col-third"><input type="text" placeholder="City" /></div>
+          <div class="col-third"><input type="text" placeholder="City" name="city" /></div>
 
           <div class="col-third">
-            <input type="text" placeholder="State" maxlength="2" />
+            <input type="text" placeholder="State" maxlength="2" name="state" />
           </div>
 
           <div class="col-third">
-            <input type="number" placeholder="Zip Code" maxlength="5" />
+            <input type="number" placeholder="Zip Code" maxlength="5" name="zip" />
           </div>
         </div>
 
         <div class="row">
           <h4>Specialty</h4>
           <div class="input-group input-group-icon">
-            <input type="text" placeholder="Specialty" />
+            <input type="text" placeholder="Specialty" name="specialty" />
             <div class="input-icon"><i class="fa fa-specialty"></i></div>
           </div>
         </div>
@@ -321,7 +321,7 @@
           <div class="input-group">
             <input
               type="radio"
-              name="Branch-of-service"
+              name="branch"
               value="Army"
               id="branch-army"
               checked="true"
@@ -332,7 +332,7 @@
 
             <input
               type="radio"
-              name="Branch-of-service"
+              name="branch"
               value="Marines"
               id="branch-marines"
             />
@@ -342,7 +342,7 @@
 
             <input
               type="radio"
-              name="Branch-of-service"
+              name="branch"
               value="Navy"
               id="branch-navy"
             />
@@ -352,7 +352,7 @@
 
             <input
               type="radio"
-              name="Branch-of-service"
+              name="branch"
               value="Air Force"
               id="branch-airforce"
             />
@@ -362,7 +362,7 @@
 
             <input
               type="radio"
-              name="Branch-of-service"
+              name="branch"
               value="Coast Guard"
               id="branch-coastguard"
             />
@@ -372,7 +372,7 @@
 
             <input
               type="radio"
-              name="Branch-of-service"
+              name="branch"
               value="other"
               id="branch-other"
             />
@@ -381,11 +381,11 @@
             >
           </div>
           <div class="input-group input-group-icon">
-            <input type="text" placeholder="Member ID" />
+            <input type="text" placeholder="Member ID" name="member" />
             <div class="input-icon"><i class="fa fa-credit-memberid"></i></div>
           </div>
           <div class="input-group input-group-icon">
-            <input type="text" placeholder="Plan ID" />
+            <input type="text" placeholder="Plan ID" name="plan" />
             <div class="input-icon"><i class="fa fa-credit-planid"></i></div>
           </div>
         </div>
@@ -395,7 +395,6 @@
             type="submit"
             value="sign up"
             class="forms_buttons-action"
-            onclick="window.location.href='login.html'"
           />
         </div>
       </form>

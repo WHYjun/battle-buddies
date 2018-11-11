@@ -421,12 +421,12 @@
         <div class="user_options-forms" id="user_options-forms">
             <div class="user_forms-login">
                 <h2 class="forms_title">Login</h2>
-                <form class="forms_form">
+                <form class="forms_form" method="post" action="/api/signin">
                     <fieldset class="forms_fieldset">
                         <div class="forms_field">
-                            <input type="email" placeholder="Email" class="forms_field-input" required autofocus id="email"/>
+                            <input type="email" placeholder="Email" class="forms_field-input" required autofocus id="email" name="email" />
 
-                            <input type="password" placeholder="Password" class="forms_field-input" required id="password"/>
+                            <input type="password" placeholder="Password" class="forms_field-input" required id="password" name="password" />
                         </div>
                     </fieldset>
                     <div class="forms_buttons">

@@ -5,8 +5,8 @@ const bodyParser = require('body-parser')
 const MessagingResponse = require('twilio').twiml.MessagingResponse
 const mongoose = require('mongoose')
 const User = require('./user')
-const accountSid = 'ACa9129633d27ef3500b23dfae414977cf'
-const authToken = '68fb77df16d1defb3bb9744da131eed1'
+const accountSid = ''
+const authToken = ''
 var client = require('twilio')(accountSid, authToken)
 
 mongoose.Promise = global.Promise
@@ -25,30 +25,20 @@ app.post('/receive', function (req, res) {
   console.log(req.body.Body)
   var addressb4 = req.body.Body.split('.')
 
-  if (addressb4[0] === 'va_assist') {
-    client.messages
-      .create({
-        body:
-          'Hello! \nWhat kind of assistance do you need?\n(Health,Job Assistance)',
-        from: '8572038387',
-        to: '7819520510'
-      })
-      .then(message => console.log(message.sid))
-      .done()
-  } else if (addressb4[0] == 'Health') {
-    client.messages
-      .create({
-        body: 'Where are you located?',
-        from: '8572038387',
-        to: '7819520510'
-      })
-      .then(message => console.log(message.sid))
-      .done()
+  if (addressb4[0] === 'TXTFORVETS') {
+    twiml.message('Hello! \nWhat kind of assistance do you need?\n(Health, Job Assistance)')
+    console.log(twiml.toString())
+  } else if (addressb4[0] === 'Health') {
+    twiml.message('Where are you located?')
+    console.log(twiml.toString())
+  } else if (addressb4[0] === 'Job Assistance') {
+    twiml.message('Where are you located?')
+    console.log(twiml.toString())
   } else {
     var address = req.body.Body.replace(/ /g, '+')
 
     const sourceAddress = address
-    const key = 'AIzaSyDx7W32E_T6H5fmVjwLDyGnqTWkySCTJAE'
+    const key = ''
 
     const options = {
       method: 'GET',
@@ -74,7 +64,7 @@ app.post('/receive', function (req, res) {
       var options2 = {
         method: 'GET',
         url: 'https://dev-api.va.gov/services/va_facilities/v0/facilities',
-        qs: { apikey: 'BGZMwn7elWRPHlxknLOYEFVU3bP2RWqD', long: long, lat: lat }
+        qs: { apikey: '', long: long, lat: lat }
       }
 
       request(options2, function (error, response, body) {
@@ -90,18 +80,8 @@ app.post('/receive', function (req, res) {
             result.data[i].attributes.phone.main +
             '\n'
         }
-        // const twiml = new MessagingResponse()
-
-        client.messages
-          .create({
-            body: textmsg,
-            from: '8572038387',
-            to: '7819520510'
-          })
-          .then(message => console.log(message.sid))
-          .done()
-
-        // console.log(body.data[0].attributes.name);
+        twiml.message(textmsg)
+        console.log(twiml.toString())
       })
     })
   }

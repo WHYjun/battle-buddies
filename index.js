@@ -1,18 +1,16 @@
 var express = require('express')
-var client = require('twilio')(
-  'ACa9129633d27ef3500b23dfae414977cf',
-  'p68fb77df16d1defb3bb9744da131eed1'
-);
 const axios = require ('axios')
 const request = require ('request')
-
+const accountSid = 'ACa9129633d27ef3500b23dfae414977cf';
+const authToken = '68fb77df16d1defb3bb9744da131eed1';
+var client = require('twilio')(accountSid, authToken);
 const superagent = require('superagent')
 const https = require('https')
 const bodyParser = require('body-parser')
 const MessagingResponse = require('twilio').twiml.MessagingResponse
 
 // VARS
-const twiml = new MessagingResponse()
+
 var app = express()
 
 // Middlewares
@@ -69,10 +67,19 @@ app.post('/receive', function (req, res) {
           var result = JSON.parse(body)
           var textmsg = "Nearby VA facilities are as follows \n"
           console.log(result)
-          /*for(let i = 0 ; i < 5 ; i++){
+          for(let i = 0 ; i < 5 ; i++){
             textmsg +=  result.data[i].attributes.name +"\n"
-          }*/
+          }
+          //const twiml = new MessagingResponse()
 
+          client.messages
+          .create({
+              body: textmsg,
+              from: '',
+              to: ''
+          })
+          .then(message => console.log(message.sid))
+          .done();
           
           //console.log(body.data[0].attributes.name);
         });
